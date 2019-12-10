@@ -19,9 +19,10 @@ func main() {
 	key = []byte(os.Args[1])
 
 	scanner := bufio.NewScanner(os.Stdin)
-	for scanner.Scan() {
-		in = scanner.Bytes()
-		out = common.RawToHex(repeated.Xor(in, key))
-		fmt.Println(string(out))
-	}
+	if !scanner.Scan() {
+    return
+  }
+  in = scanner.Bytes()
+  out = common.RawToHex(repeated.Xor(in, key))
+  fmt.Println(string(out))
 }

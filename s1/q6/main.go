@@ -18,7 +18,7 @@ func main() {
 
 	out, err := repeated.Break(in, true)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error: %s", err)
+		fmt.Fprintf(os.Stderr, "Error: %s\n", err)
 		return
 	}
 	fmt.Println(string(out))
