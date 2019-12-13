@@ -1,12 +1,10 @@
 package ecb
 
-import "crypto/aes"
+import (
+	"crypto/aes"
 
-func Unpad(in []byte) []byte {
-	N := len(in)
-	padding := int(in[N-1])
-	return in[:N-padding]
-}
+	"cryptopals/s2/q9/pkcs7"
+)
 
 func Decrypt(in, key []byte) ([]byte, error) {
 	out := make([]byte, len(in))
@@ -24,5 +22,5 @@ func Decrypt(in, key []byte) ([]byte, error) {
 		offset += aes.BlockSize
 	}
 
-	return Unpad(out), nil
+	return pkcs7.Unpad(out), nil
 }
