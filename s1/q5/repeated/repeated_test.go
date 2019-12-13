@@ -1,7 +1,6 @@
 package repeated
 
 import (
-	"bytes"
 	"testing"
 
 	"cryptopals/common"
@@ -16,7 +15,5 @@ var want = []byte(
 
 func TestXor(t *testing.T) {
 	got := common.RawToHex(Xor(in1, key))
-	if !bytes.Equal(want, got) {
-		t.Fatalf("got %s; want %s", got, want)
-	}
+	common.Test(t, want, got)
 }

@@ -1,7 +1,6 @@
 package repeated
 
 import (
-	"bytes"
 	"testing"
 
 	"cryptopals/common"
@@ -19,22 +18,16 @@ func TestEditDistance(t *testing.T) {
 	want := 37
 
 	got := EditDistance(in1, in2)
-	if got != want {
-		t.Fatalf("got %d, want %d", got, want)
-	}
+	common.Test(t, want, got)
 }
 
 func TestBestKeylen(t *testing.T) {
 	want := 3
 	got := BestKeylen(common.HexToRaw(in), false)
-	if got != want {
-		t.Fatalf("got %d, want %d", got, want)
-	}
+	common.Test(t, want, got)
 }
 
 func TestBreak(t *testing.T) {
 	got, _ := Break(common.HexToRaw(in), false)
-	if !bytes.Equal(got, want) {
-		t.Fatalf("\n= have =\n%s\n= want =\n%s", got, want)
-	}
+	common.Test(t, want, got)
 }

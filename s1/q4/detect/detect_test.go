@@ -2,15 +2,21 @@ package detect
 
 import (
 	"bufio"
-	"bytes"
 	"os"
 	"testing"
 
 	"cryptopals/common"
 )
 
-var wantOut = []byte("Now that the party is jumping\n")
-var wantIdx = 170
+type result struct {
+	idx   int
+	bytes []byte
+}
+
+var want = result{
+	idx:   170,
+	bytes: []byte("Now that the party is jumping\n"),
+}
 
 func TestSBXor(t *testing.T) {
 	var lines [][]byte
@@ -22,7 +28,7 @@ func TestSBXor(t *testing.T) {
 	}
 
 	out, idx, _ := SBXor(lines, false)
-	if idx != wantIdx || !bytes.Equal(out, wantOut) {
-		t.Fatalf("got (%d, %s), want (%d, %s)", idx, out, wantIdx, wantOut)
-	}
+	got := result{idx: idx, bytes: out}
+
+	common.Test(t, want, got)
 }

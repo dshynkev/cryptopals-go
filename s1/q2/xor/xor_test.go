@@ -1,7 +1,6 @@
 package xor
 
 import (
-	"bytes"
 	"testing"
 
 	"cryptopals/common"
@@ -19,7 +18,5 @@ func TestXor(t *testing.T) {
 
 	got = common.RawToHex(got)
 
-	if !bytes.Equal(want, got) {
-		t.Fatalf("got %s, want %s", got, want)
-	}
+	common.Test(t, want, got)
 }

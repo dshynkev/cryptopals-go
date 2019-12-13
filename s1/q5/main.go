@@ -20,9 +20,9 @@ func main() {
 
 	scanner := bufio.NewScanner(os.Stdin)
 	if !scanner.Scan() {
-    return
-  }
-  in = scanner.Bytes()
-  out = common.RawToHex(repeated.Xor(in, key))
-  fmt.Println(string(out))
+		return
+	}
+	in = scanner.Bytes()
+	out = common.RawToHex(repeated.Xor(in, key))
+	fmt.Println(string(out))
 }

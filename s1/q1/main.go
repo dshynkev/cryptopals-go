@@ -15,10 +15,6 @@ func main() {
 	}
 	in := scanner.Bytes()
 
-	out, err := convert.HexToB64(in)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error: %s", err)
-		return
-	}
+	out := convert.HexToB64(in)
 	fmt.Println(string(out))
 }

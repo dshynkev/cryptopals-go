@@ -1,7 +1,6 @@
 package sbxor
 
 import (
-	"bytes"
 	"testing"
 
 	"cryptopals/common"
@@ -13,7 +12,5 @@ var want = []byte("Cooking MC's like a pound of bacon")
 func TestBreak(t *testing.T) {
 	got, _ := Break(common.HexToRaw(in1), false)
 
-	if !bytes.Equal(want, got) {
-		t.Fatalf("got %s, want %s", got, want)
-	}
+	common.Test(t, want, got)
 }
