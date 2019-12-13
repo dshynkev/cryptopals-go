@@ -15,6 +15,10 @@ func xor(out []byte, mask []byte) {
 }
 
 func Decrypt(in, key, iv []byte) ([]byte, error) {
+	if len(in) == 0 {
+		return nil, nil
+	}
+
 	cipher, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err
@@ -41,4 +45,32 @@ func Decrypt(in, key, iv []byte) ([]byte, error) {
 	}
 
 	return pkcs7.Unpad(out), nil
+}
+
+func Encrypt(in, key, iv []byte) ([]byte, error) {
+	cipher, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
+
+	in = pkcs7.Pad(in)
+
+	N := len(in) / BlockSize
+	out := make([]byte, len(in))
+	tmp := make([]byte, BlockSize)
+
+	copy(tmp, in[0:BlockSize])
+	xor(tmp, iv)
+	cipher.Encrypt(out[0:BlockSize], tmp)
+
+	offset := BlockSize
+	for i := 1; i < N; i++ {
+		copy(tmp, in[offset:(offset+BlockSize)])
+		xor(tmp, out[(offset-BlockSize):offset])
+		cipher.Encrypt(out[offset:(offset+BlockSize)], tmp)
+
+		offset += BlockSize
+	}
+
+	return out, nil
 }

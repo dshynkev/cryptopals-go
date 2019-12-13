@@ -9,7 +9,6 @@ import (
 	"cryptopals/s2/q10/cbc"
 )
 
-// This reimplements pkcs.Pad for efficiency reasons
 func main() {
 	if len(os.Args) != 2 {
 		fmt.Fprintf(os.Stderr, "Usage: %s KEY\n", os.Args[0])
