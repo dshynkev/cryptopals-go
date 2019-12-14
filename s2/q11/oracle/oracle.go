@@ -7,7 +7,6 @@ import (
 	"cryptopals/s1/q7/ecb"
 	"cryptopals/s2/q10/cbc"
 	"cryptopals/s2/q11/detect"
-	"cryptopals/s2/q9/pkcs7"
 )
 
 const (
@@ -61,7 +60,6 @@ func (re *RandomEncryptor) Ask(in []byte) []byte {
 		padded[(paddedLen-endPadLen):paddedLen],
 		randbuf[EndPadOffset:(EndPadOffset+endPadLen)],
 	)
-	padded = pkcs7.Pad(padded)
 
 	var key = randbuf[KeyOffset:(KeyOffset + BlockSize)]
 	var iv = randbuf[IvOffset:(IvOffset + BlockSize)]
