@@ -17,7 +17,7 @@ func TestBlockMode(t *testing.T) {
 	secret = common.B64ToRaw(secret)
 
 	enc := oracle.NewEncryptor(secret)
-	got, _ := ecb.Break(enc)
+	got := ecb.Break(enc)
 
 	common.Test(t, want, got)
 }

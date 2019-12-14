@@ -19,7 +19,7 @@ func main() {
 	io.Copy(&buf, os.Stdin)
 
 	re := oracle.NewEncryptor([]byte(os.Args[1]))
-	out := re.Ask(buf.Bytes())
+	out := re.Encrypt(buf.Bytes())
 
 	os.Stdout.Write(out)
 }

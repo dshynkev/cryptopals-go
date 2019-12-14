@@ -14,7 +14,7 @@ type EcbFixedKeyEncryptor struct {
 	Secret []byte
 }
 
-func (e *EcbFixedKeyEncryptor) Ask(in []byte) []byte {
+func (e *EcbFixedKeyEncryptor) Encrypt(in []byte) []byte {
 	var combined = make([]byte, len(in)+len(e.Secret))
 	copy(combined, in)
 	copy(combined[len(in):], e.Secret)
