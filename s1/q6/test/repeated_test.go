@@ -1,9 +1,10 @@
-package repeated
+package repeated_test
 
 import (
 	"testing"
 
 	"cryptopals/common"
+	"cryptopals/s1/q6/repeated"
 )
 
 var in = []byte(
@@ -17,17 +18,17 @@ func TestEditDistance(t *testing.T) {
 	in2 := []byte("wokka wokka!!!")
 	want := 37
 
-	got := EditDistance(in1, in2)
+	got := repeated.EditDistance(in1, in2)
 	common.Test(t, want, got)
 }
 
 func TestBestKeylen(t *testing.T) {
 	want := 3
-	got := BestKeylen(common.HexToRaw(in), false)
+	got := repeated.BestKeylen(common.HexToRaw(in), false)
 	common.Test(t, want, got)
 }
 
 func TestBreak(t *testing.T) {
-	got, _ := Break(common.HexToRaw(in), false)
+	got, _ := repeated.Break(common.HexToRaw(in), false)
 	common.Test(t, want, got)
 }

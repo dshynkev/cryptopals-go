@@ -14,9 +14,16 @@ func Pad(in []byte, blockSize int) []byte {
 	return in
 }
 
-func Unpad(in []byte) ([]byte, error) {
+func Unpad(in []byte, blockSize int) ([]byte, error) {
 	N := len(in)
+        if N == 0 || N % blockSize != 0 {
+            return nil, BadPadding
+        }
+
 	padding := in[N-1]
+        if padding == 0 || int(padding) > blockSize {
+            return nil, BadPadding
+        }
 
 	end := N - int(padding)
 	for i := end; i < N; i++ {

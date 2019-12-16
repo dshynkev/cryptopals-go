@@ -1,9 +1,10 @@
-package repeated
+package repeated_test
 
 import (
 	"testing"
 
 	"cryptopals/common"
+	"cryptopals/s1/q5/repeated"
 )
 
 var in1 = []byte("Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal")
@@ -14,6 +15,6 @@ var want = []byte(
 )
 
 func TestXor(t *testing.T) {
-	got := common.RawToHex(Xor(in1, key))
-	common.Test(t, want, got)
+	got := repeated.Xor(in1, key)
+	common.Test(t, want, common.RawToHex(got))
 }

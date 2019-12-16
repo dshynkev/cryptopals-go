@@ -44,5 +44,5 @@ func Decrypt(in, key []byte) ([]byte, error) {
 		offset += BlockSize
 	}
 
-	return pkcs7.Unpad(out)
+	return pkcs7.Unpad(out, BlockSize)
 }

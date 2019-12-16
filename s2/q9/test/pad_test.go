@@ -1,4 +1,4 @@
-package pkcs7_test
+package pad_test
 
 import (
 	"testing"
@@ -24,18 +24,4 @@ func TestPad(t *testing.T) {
 		got := pkcs7.Pad(before[i], blockSize)
 		common.Test(t, after[i], got)
 	}
-}
-
-func TestUnpad(t *testing.T) {
-	for i := 0; i < len(before); i++ {
-		got, err := pkcs7.Unpad(after[i])
-		common.Test(t, nil, err)
-		common.Test(t, before[i], got)
-	}
-}
-
-func TestUnpadCorrupted(t *testing.T) {
-	var corrupted = []byte("BLUE SUBMARINE\x03\x03")
-	_, err := pkcs7.Unpad(corrupted)
-	common.Test(t, pkcs7.BadPadding, err)
 }

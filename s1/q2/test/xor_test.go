@@ -1,9 +1,10 @@
-package xor
+package xor_test
 
 import (
 	"testing"
 
 	"cryptopals/common"
+	"cryptopals/s1/q2/xor"
 )
 
 var in1 = []byte("1c0111001f010100061a024b53535009181c")
@@ -14,7 +15,7 @@ func TestXor(t *testing.T) {
 	b1 := common.HexToRaw(in1)
 	b2 := common.HexToRaw(in2)
 
-	got := Xor(b1, b2)
+	got := xor.Xor(b1, b2)
 
 	got = common.RawToHex(got)
 

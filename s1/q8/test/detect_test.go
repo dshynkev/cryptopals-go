@@ -1,4 +1,4 @@
-package detect
+package detect_test
 
 import (
 	"bufio"
@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"cryptopals/common"
+	"cryptopals/s1/q8/detect"
 )
 
 const want = 132
@@ -17,7 +18,7 @@ func TestDecrypt(t *testing.T) {
 
 	for i := 0; scanner.Scan(); i++ {
 		in := common.HexToRaw(scanner.Bytes())
-		detected := IsEcb(in)
+		detected := detect.IsEcb(in)
 		if detected {
 			common.Test(t, false, any)
 			common.Test(t, want, i)

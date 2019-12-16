@@ -1,4 +1,4 @@
-package detect
+package detect_test
 
 import (
 	"bufio"
@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"cryptopals/common"
+	"cryptopals/s1/q4/detect"
 )
 
 type result struct {
@@ -27,7 +28,7 @@ func TestSBXor(t *testing.T) {
 		lines = append(lines, common.HexToRaw(scanner.Bytes()))
 	}
 
-	out, idx, _ := SBXor(lines, false)
+	out, idx, _ := detect.SBXor(lines, false)
 	got := result{idx: idx, bytes: out}
 
 	common.Test(t, want, got)
