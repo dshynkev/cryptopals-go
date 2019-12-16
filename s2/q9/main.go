@@ -5,7 +5,7 @@ import (
 	"io"
 	"os"
 
-	"cryptopals/s2/q9/pkcs7"
+	"cryptopals/commmon/pkcs7"
 )
 
 // This reimplements pkcs.Pad for efficiency reasons

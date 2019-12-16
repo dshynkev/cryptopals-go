@@ -3,7 +3,7 @@ package cbc
 import (
 	"crypto/aes"
 
-	"cryptopals/s2/q9/pkcs7"
+	"cryptopals/common/pkcs7"
 )
 
 const BlockSize = aes.BlockSize
@@ -44,7 +44,7 @@ func Decrypt(in, key, iv []byte) ([]byte, error) {
 		offset += BlockSize
 	}
 
-	return pkcs7.Unpad(out), nil
+	return pkcs7.Unpad(out)
 }
 
 func Encrypt(in, key, iv []byte) ([]byte, error) {
@@ -53,7 +53,7 @@ func Encrypt(in, key, iv []byte) ([]byte, error) {
 		return nil, err
 	}
 
-	in = pkcs7.Pad(in)
+	in = pkcs7.Pad(in, BlockSize)
 
 	N := len(in) / BlockSize
 	out := make([]byte, len(in))

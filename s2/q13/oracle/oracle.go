@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"crypto/aes"
 	"crypto/rand"
-	"log"
 	"net/url"
 
 	"cryptopals/s1/q7/ecb"
@@ -49,7 +48,6 @@ func (e *KeyValueEncryptor) Decrypt(ciphertext []byte) []byte {
 	out, _ := ecb.Decrypt(ciphertext, e.Key)
 	parsed, _ := url.ParseQuery(string(out))
 
-	log.Printf("%+v", parsed)
 	if len(parsed["role"]) == 1 && parsed["role"][0] == "admin" {
 		return e.Secret
 	} else {

@@ -3,11 +3,13 @@ package ecb
 import (
 	"crypto/aes"
 
-	"cryptopals/s2/q9/pkcs7"
+	"cryptopals/common/pkcs7"
 )
 
+const BlockSize = aes.BlockSize
+
 func Encrypt(in, key []byte) ([]byte, error) {
-	in = pkcs7.Pad(in)
+	in = pkcs7.Pad(in, BlockSize)
 	out := make([]byte, len(in))
 
 	cipher, err := aes.NewCipher(key)
@@ -15,12 +17,12 @@ func Encrypt(in, key []byte) ([]byte, error) {
 		return nil, err
 	}
 
-	offset, n := 0, len(in)/aes.BlockSize
+	offset, n := 0, len(in)/BlockSize
 	for i := 0; i < n; i++ {
 		cipher.Encrypt(
-			out[offset:(offset+aes.BlockSize)], in[offset:(offset+aes.BlockSize)],
+			out[offset:(offset+BlockSize)], in[offset:(offset+BlockSize)],
 		)
-		offset += aes.BlockSize
+		offset += BlockSize
 	}
 
 	return out, nil
@@ -34,13 +36,13 @@ func Decrypt(in, key []byte) ([]byte, error) {
 		return nil, err
 	}
 
-	offset, n := 0, len(in)/aes.BlockSize
+	offset, n := 0, len(in)/BlockSize
 	for i := 0; i < n; i++ {
 		cipher.Decrypt(
-			out[offset:(offset+aes.BlockSize)], in[offset:(offset+aes.BlockSize)],
+			out[offset:(offset+BlockSize)], in[offset:(offset+BlockSize)],
 		)
-		offset += aes.BlockSize
+		offset += BlockSize
 	}
 
-	return pkcs7.Unpad(out), nil
+	return pkcs7.Unpad(out)
 }
