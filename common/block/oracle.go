@@ -43,8 +43,8 @@ func GetEcbBlockSize(oracle EncryptOracle) int {
 	var out = oracle.Encrypt(scratch)
 
 	for guess := MinBlockSize; guess <= MaxBlockSize; guess += BlockSizeStep {
-		for i := 0; (i+1)*guess <= len(scratch); i++ {
-			if bytes.Equal(out[i*guess:(i+1)*guess], out[i*guess:(i+1)*guess]) {
+		for i := 1; (i+1)*guess <= len(out); i++ {
+			if bytes.Equal(out[(i-1)*guess:i*guess], out[i*guess:(i+1)*guess]) {
 				return guess
 			}
 		}

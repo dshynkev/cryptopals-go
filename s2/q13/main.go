@@ -15,6 +15,6 @@ func main() {
 		return
 	}
 
-	out := re.Ask(scanner.Bytes())
+	out := re.Encrypt(scanner.Bytes())
 	os.Stdout.Write(out)
 }

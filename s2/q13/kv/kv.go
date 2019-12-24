@@ -4,11 +4,6 @@ import (
 	"cryptopals/common/block"
 )
 
-type BidirOracle interface {
-	Ask([]byte) []byte
-	Tell([]byte) []byte
-}
-
 const (
 	EmailKeyLength  = len("email=")
 	AdminRoleLength = len("admin")
