@@ -3,7 +3,8 @@ package xor_test
 import (
 	"testing"
 
-	"cryptopals/common"
+	"cryptopals/common/convert"
+	"cryptopals/common/test"
 	"cryptopals/s1/q2/xor"
 )
 
@@ -12,12 +13,12 @@ var in2 = []byte("686974207468652062756c6c277320657965")
 var want = []byte("746865206b696420646f6e277420706c6179")
 
 func TestXor(t *testing.T) {
-	b1 := common.HexToRaw(in1)
-	b2 := common.HexToRaw(in2)
+	b1 := convert.HexToRaw(in1)
+	b2 := convert.HexToRaw(in2)
 
 	got := xor.Xor(b1, b2)
 
-	got = common.RawToHex(got)
+	got = convert.RawToHex(got)
 
-	common.Test(t, want, got)
+	test.Test(t, want, got)
 }

@@ -3,7 +3,7 @@ package convert_test
 import (
 	"testing"
 
-	"cryptopals/common"
+	"cryptopals/common/test"
 	"cryptopals/s1/q1/convert"
 )
 
@@ -13,5 +13,5 @@ var want = []byte("SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb
 func TestHexToB64(t *testing.T) {
 	got := convert.HexToB64(in)
 
-	common.Test(t, want, got)
+	test.Test(t, want, got)
 }

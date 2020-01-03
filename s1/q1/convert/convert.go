@@ -1,7 +1,7 @@
 package convert
 
-import "cryptopals/common"
+import "cryptopals/common/convert"
 
 func HexToB64(in []byte) []byte {
-	return common.RawToB64(common.HexToRaw(in))
+	return convert.RawToB64(convert.HexToRaw(in))
 }

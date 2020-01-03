@@ -2,10 +2,9 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"os"
 
-	"cryptopals/common"
+	"cryptopals/common/convert"
 	"cryptopals/s1/q2/xor"
 )
 
@@ -14,12 +13,12 @@ func main() {
 	if !scanner.Scan() {
 		return
 	}
-	in1 := common.HexToRaw(scanner.Bytes())
+	in1 := convert.HexToRaw(scanner.Bytes())
 	if !scanner.Scan() {
 		return
 	}
-	in2 := common.HexToRaw(scanner.Bytes())
+	in2 := convert.HexToRaw(scanner.Bytes())
 
-	out := common.RawToHex(xor.Xor(in1, in2))
-	fmt.Println(string(out))
+	out := xor.Xor(in1, in2)
+	os.Stdout.Write(out)
 }

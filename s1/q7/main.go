@@ -1,32 +1,29 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
+	"bytes"
+	"io"
 	"os"
 
-	"cryptopals/common"
 	"cryptopals/s1/q7/ecb"
 )
 
 func main() {
-	var in, key []byte
 	if len(os.Args) != 2 {
-		fmt.Fprintln(os.Stderr, "Provide a key")
+		os.Stderr.WriteString("Usage: q7 KEY\n")
 		return
 	}
-	key = []byte(os.Args[1])
+	var key = []byte(os.Args[1])
 
-	scanner := bufio.NewScanner(os.Stdin)
-	for scanner.Scan() {
-		in = append(in, common.B64ToRaw(scanner.Bytes())...)
-	}
+	var buf bytes.Buffer
+	io.Copy(&buf, os.Stdin)
 
-	out, err := ecb.Decrypt(in, key)
+	out, err := ecb.Decrypt(buf.Bytes(), key)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Decryption error: %s", err)
+		os.Stderr.WriteString(err.Error())
+		os.Stderr.WriteString("\n")
 		return
 	}
 
-	fmt.Println(string(out))
+	os.Stdout.Write(out)
 }

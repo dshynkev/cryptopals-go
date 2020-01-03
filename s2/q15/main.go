@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 	"os"
 
@@ -15,10 +14,12 @@ func main() {
 	var buf bytes.Buffer
 	io.Copy(&buf, os.Stdin)
 
-        out, err := pkcs7.Unpad(buf.Bytes(), blockSize)
-        if err != nil {
-            fmt.Fprintln(os.Stderr, err)
-        }
+	out, err := pkcs7.Unpad(buf.Bytes(), blockSize)
+	if err != nil {
+		os.Stderr.WriteString(err.Error())
+		os.Stderr.WriteString("\n")
+		return
+	}
 
-        os.Stdout.Write(out)
+	os.Stdout.Write(out)
 }

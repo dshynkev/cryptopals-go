@@ -3,6 +3,8 @@ package detect
 import (
 	"bytes"
 	"crypto/aes"
+
+	"cryptopals/common/oracle"
 )
 
 type AesBlockMode int
@@ -18,12 +20,8 @@ const BlockSize = aes.BlockSize
 // [ X padding ] [ BS-X testInput ] | [ BS testInput ] | [ BS testInput ] | ...
 var testInput = bytes.Repeat([]byte{0x42}, 3*BlockSize)
 
-type Oracle interface {
-	Ask([]byte) []byte
-}
-
-func BlockMode(oracle Oracle) AesBlockMode {
-	out := oracle.Ask(testInput)
+func BlockMode(oracle oracle.Encryptor) AesBlockMode {
+	out := oracle.Encrypt(testInput)
 
 	if bytes.Equal(out[BlockSize:2*BlockSize], out[2*BlockSize:3*BlockSize]) {
 		return EcbMode

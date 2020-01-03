@@ -14,7 +14,7 @@ func main() {
 	var buf bytes.Buffer
 	io.Copy(&buf, os.Stdin)
 
-        out := pkcs7.Pad(buf.Bytes(), blockSize)
+	out := pkcs7.Pad(buf.Bytes(), blockSize)
 
-        os.Stdout.Write(out)
+	os.Stdout.Write(out)
 }

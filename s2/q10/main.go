@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 	"os"
 
@@ -11,7 +10,7 @@ import (
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Fprintf(os.Stderr, "Usage: %s KEY\n", os.Args[0])
+		os.Stderr.WriteString("Usage: q10 KEY\n")
 		return
 	}
 

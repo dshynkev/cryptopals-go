@@ -3,7 +3,7 @@ package detect_test
 import (
 	"testing"
 
-	"cryptopals/common"
+	"cryptopals/common/test"
 	"cryptopals/s2/q11/detect"
 	"cryptopals/s2/q11/oracle"
 )
@@ -11,10 +11,10 @@ import (
 const N = 10
 
 func TestBlockMode(t *testing.T) {
-	re := oracle.NewRandomEncryptor()
+	re := oracle.NewEncryptor()
 
 	for i := 0; i < N; i++ {
 		mode := detect.BlockMode(re)
-		common.Test(t, re.LastBlockMode, mode)
+		test.Test(t, re.LastBlockMode, mode)
 	}
 }

@@ -3,8 +3,8 @@ package unpad_test
 import (
 	"testing"
 
-	"cryptopals/common"
 	"cryptopals/common/pkcs7"
+	"cryptopals/common/test"
 )
 
 const blockSize = 16
@@ -22,20 +22,20 @@ var after = [][]byte{
 func TestUnpad(t *testing.T) {
 	for i := 0; i < len(before); i++ {
 		got, err := pkcs7.Unpad(after[i], blockSize)
-		common.Test(t, nil, err)
-		common.Test(t, before[i], got)
+		test.Test(t, nil, err)
+		test.Test(t, before[i], got)
 	}
 }
 
 func TestUnpadCorrupted(t *testing.T) {
 	var corrupted = [][]byte{
-            []byte{},
-            []byte("BLUE SUBMARINE"),
-            []byte("BLUE SUBMARINE\x03\x03"),
-        }
+		[]byte{},
+		[]byte("BLUE SUBMARINE"),
+		[]byte("BLUE SUBMARINE\x03\x03"),
+	}
 
-        for i := 0; i < len(corrupted); i++ {
-            _, err := pkcs7.Unpad(corrupted[i], blockSize)
-            common.Test(t, pkcs7.BadPadding, err)
-        }
+	for i := 0; i < len(corrupted); i++ {
+		_, err := pkcs7.Unpad(corrupted[i], blockSize)
+		test.Test(t, pkcs7.BadPadding, err)
+	}
 }

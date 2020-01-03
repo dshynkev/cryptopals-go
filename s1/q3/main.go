@@ -1,24 +1,20 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
+	"bytes"
+	"io"
 	"os"
 
-	"cryptopals/common"
 	"cryptopals/s1/q3/sbxor"
 )
 
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
-	if !scanner.Scan() {
-		return
-	}
-	in := common.HexToRaw(scanner.Bytes())
+	var buf bytes.Buffer
+	io.Copy(&buf, os.Stdin)
 
-	out, score := sbxor.Break(in, true)
+	out, score := sbxor.Break(buf.Bytes(), true)
 	if score == 0 {
 		os.Exit(-1)
 	}
-	fmt.Println(string(out))
+	os.Stdout.Write(out)
 }

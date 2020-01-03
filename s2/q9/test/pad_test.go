@@ -3,8 +3,8 @@ package pad_test
 import (
 	"testing"
 
-	"cryptopals/common"
 	"cryptopals/common/pkcs7"
+	"cryptopals/common/test"
 )
 
 const blockSize = 16
@@ -22,6 +22,6 @@ var after = [][]byte{
 func TestPad(t *testing.T) {
 	for i := 0; i < len(before); i++ {
 		got := pkcs7.Pad(before[i], blockSize)
-		common.Test(t, after[i], got)
+		test.Test(t, after[i], got)
 	}
 }

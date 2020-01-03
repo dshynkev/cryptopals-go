@@ -5,7 +5,8 @@ import (
 	"os"
 	"testing"
 
-	"cryptopals/common"
+	"cryptopals/common/convert"
+	"cryptopals/common/test"
 	"cryptopals/s1/q4/detect"
 )
 
@@ -25,11 +26,11 @@ func TestSBXor(t *testing.T) {
 	f, _ := os.Open("lines.txt")
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
-		lines = append(lines, common.HexToRaw(scanner.Bytes()))
+		lines = append(lines, convert.HexToRaw(scanner.Bytes()))
 	}
 
 	out, idx, _ := detect.SBXor(lines, false)
 	got := result{idx: idx, bytes: out}
 
-	common.Test(t, want, got)
+	test.Test(t, want, got)
 }

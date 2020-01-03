@@ -4,7 +4,9 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"cryptopals/common"
+	"cryptopals/common/convert"
+	"cryptopals/common/edit"
+	"cryptopals/common/test"
 	"cryptopals/s2/q10/cbc"
 )
 
@@ -16,17 +18,17 @@ var plain, _ = ioutil.ReadFile("plain.txt")
 
 func TestEncrypt(t *testing.T) {
 	got, err := cbc.Encrypt(plain, key, iv)
-	common.Test(t, nil, err)
-	common.Test(t, cipher, got)
+	test.Test(t, nil, err)
+	test.Test(t, cipher, got)
 }
 
 func TestDecrypt(t *testing.T) {
 	got, err := cbc.Decrypt(cipher, key, iv)
-	common.Test(t, nil, err)
-	common.Test(t, plain, got)
+	test.Test(t, nil, err)
+	test.Test(t, plain, got)
 }
 
 func init() {
-	cipher = common.Expunge(cipher, '\n')
-	cipher = common.B64ToRaw(cipher)
+	cipher = edit.Expunge(cipher, '\n')
+	cipher = convert.B64ToRaw(cipher)
 }

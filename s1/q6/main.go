@@ -1,25 +1,22 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
+	"bytes"
+	"io"
 	"os"
 
-	"cryptopals/common"
 	"cryptopals/s1/q6/repeated"
 )
 
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
-	if !scanner.Scan() {
-		return
-	}
-	in := common.HexToRaw(scanner.Bytes())
+	var buf bytes.Buffer
+	io.Copy(&buf, os.Stdin)
 
-	out, err := repeated.Break(in, true)
+	out, err := repeated.Break(buf.Bytes(), true)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error: %s\n", err)
+		os.Stderr.WriteString(err.Error())
+		os.Stderr.WriteString("\n")
 		return
 	}
-	fmt.Println(string(out))
+	os.Stdout.Write(out)
 }

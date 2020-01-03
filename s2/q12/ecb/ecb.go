@@ -3,35 +3,31 @@ package ecb
 import (
 	"bytes"
 
-	"cryptopals/common/block"
+	"cryptopals/common/edit"
+	"cryptopals/common/oracle"
+	"cryptopals/common/oracle/ecb"
 )
-
-func fill(buf []byte, count int, value byte) {
-	for i := 0; i < count; i++ {
-		buf[i] = value
-	}
-}
 
 // Break takes an oracle which performs the following operation on its input:
 //  AES-256-ECB(input || unknown-string, fixed-random-key)
 // and decrypts unknown-string with repeated calls to the oracle.
-func Break(oracle block.EncryptOracle) []byte {
-	layout := block.GetEcbBlockLayout(oracle)
-	secretSize := layout.Size*layout.Count - layout.Padding
+func Break(oracle oracle.Encryptor) []byte {
+	layout := ecb.GetBlockLayout(oracle)
+	secretSize := layout.BlockSize*layout.BlockCount - layout.Padding
 
-	var plaintext = make([]byte, layout.Size+secretSize)
-	fill(plaintext, layout.Size, '\x42')
+	var plaintext = make([]byte, layout.BlockSize+secretSize)
+	edit.Fill(plaintext[:layout.BlockSize], '\x42')
 
 	for offset := 0; offset < secretSize; offset++ {
-		block, blockOffset := offset/layout.Size, offset%layout.Size
+		block, blockOffset := offset/layout.BlockSize, offset%layout.BlockSize
 
-		reference := oracle.Encrypt(plaintext[blockOffset+1 : layout.Size])
+		reference := oracle.Encrypt(plaintext[blockOffset+1 : layout.BlockSize])
 		for guess := 0; guess < 256; guess++ {
-			plaintext[layout.Size+offset] = byte(guess)
-			this := oracle.Encrypt(plaintext[blockOffset+1 : layout.Size+offset+1])
+			plaintext[layout.BlockSize+offset] = byte(guess)
+			this := oracle.Encrypt(plaintext[blockOffset+1 : layout.BlockSize+offset+1])
 			matches := bytes.Equal(
-				this[block*layout.Size:(block+1)*layout.Size],
-				reference[block*layout.Size:(block+1)*layout.Size],
+				this[block*layout.BlockSize:(block+1)*layout.BlockSize],
+				reference[block*layout.BlockSize:(block+1)*layout.BlockSize],
 			)
 			if matches {
 				break
@@ -39,5 +35,5 @@ func Break(oracle block.EncryptOracle) []byte {
 		}
 	}
 
-	return plaintext[layout.Size:]
+	return plaintext[layout.BlockSize:]
 }

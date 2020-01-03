@@ -5,7 +5,8 @@ import (
 	"os"
 	"testing"
 
-	"cryptopals/common"
+	"cryptopals/common/convert"
+	"cryptopals/common/test"
 	"cryptopals/s1/q8/detect"
 )
 
@@ -17,16 +18,16 @@ func TestDecrypt(t *testing.T) {
 	any := false
 
 	for i := 0; scanner.Scan(); i++ {
-		in := common.HexToRaw(scanner.Bytes())
+		in := convert.HexToRaw(scanner.Bytes())
 		detected := detect.IsEcb(in)
 		if detected {
-			common.Test(t, false, any)
-			common.Test(t, want, i)
+			test.Test(t, false, any)
+			test.Test(t, want, i)
 			any = true
 		}
 	}
 
 	if !any {
-		common.FailTest(t, want, -1)
+		test.FailTest(t, want, -1)
 	}
 }

@@ -68,10 +68,12 @@ func BestKey(in []byte, verbose bool) (byte, int) {
 }
 
 func Break(in []byte, verbose bool) ([]byte, int) {
+	var out = make([]byte, len(in))
+
 	bestKey, bestScore := BestKey(in, verbose)
 	for i := 0; i < len(in); i++ {
-		in[i] ^= bestKey
+		out[i] = in[i] ^ bestKey
 	}
 
-	return in, bestScore
+	return out, bestScore
 }

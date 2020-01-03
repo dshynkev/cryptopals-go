@@ -1,28 +1,23 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
+	"bytes"
+	"io"
 	"os"
 
-	"cryptopals/common"
 	"cryptopals/s1/q5/repeated"
 )
 
 func main() {
-	var in, key, out []byte
-
 	if len(os.Args) != 2 {
-		fmt.Fprintln(os.Stderr, "Provide a key")
+		os.Stderr.WriteString("Usage: q5 KEY\n")
 		return
 	}
-	key = []byte(os.Args[1])
+	var key = []byte(os.Args[1])
 
-	scanner := bufio.NewScanner(os.Stdin)
-	if !scanner.Scan() {
-		return
-	}
-	in = scanner.Bytes()
-	out = common.RawToHex(repeated.Xor(in, key))
-	fmt.Println(string(out))
+	var buf bytes.Buffer
+	io.Copy(&buf, os.Stdin)
+
+	var out = repeated.Xor(buf.Bytes(), key)
+	os.Stdout.Write(out)
 }

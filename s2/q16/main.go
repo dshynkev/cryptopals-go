@@ -1,7 +1,8 @@
 package main
 
 import (
-	"bufio"
+	"bytes"
+	"io"
 	"os"
 
 	"cryptopals/s2/q16/oracle"
@@ -10,11 +11,9 @@ import (
 func main() {
 	re := oracle.NewEncryptor()
 
-	scanner := bufio.NewScanner(os.Stdin)
-	if !scanner.Scan() {
-		return
-	}
+	var buf bytes.Buffer
+	io.Copy(&buf, os.Stdin)
 
-	out := re.Encrypt(scanner.Bytes())
+	out := re.Encrypt(buf.Bytes())
 	os.Stdout.Write(out)
 }

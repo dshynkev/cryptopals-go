@@ -18,9 +18,10 @@ func SBXor(lines [][]byte, verbose bool) ([]byte, int, int) {
 		}
 	}
 
-	out := lines[bestIdx]
-	for i := 0; i < len(out); i++ {
-		out[i] ^= bestKey
+	var in = lines[bestIdx]
+	var out = make([]byte, len(in))
+	for i := 0; i < len(in); i++ {
+		out[i] = in[i] ^ bestKey
 	}
 
 	return out, bestIdx, bestScore

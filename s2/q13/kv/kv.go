@@ -1,7 +1,9 @@
 package kv
 
 import (
-	"cryptopals/common/block"
+	"cryptopals/common/edit"
+	"cryptopals/common/oracle"
+	"cryptopals/common/oracle/ecb"
 )
 
 const (
@@ -10,38 +12,37 @@ const (
 	UserRoleLength  = len("user")
 )
 
-func fill(buf []byte, count int, value byte) {
-	for i := 0; i < count; i++ {
-		buf[i] = value
-	}
-}
-
-func Break(oracle block.EncryptDecryptOracle) []byte {
-	var block = block.GetEcbBlockLayout(oracle)
+func Break(oracle oracle.EncryptDecryptor) []byte {
+	layout := ecb.GetBlockLayout(oracle)
 
 	var (
-		adminOffset        = block.Size - EmailKeyLength
+		adminOffset        = layout.BlockSize - EmailKeyLength
 		adminPaddingOffset = adminOffset + AdminRoleLength
-		adminPaddingLength = block.Size - AdminRoleLength
-		adminPaddingValue  = adminPaddingLength
+		adminPaddingLength = layout.BlockSize - AdminRoleLength
 		adminPayloadLength = adminPaddingOffset + adminPaddingLength
 	)
 
-	var scratch = make([]byte, 2*block.Size)
-	var payload = make([]byte, (block.Count+1)*block.Size)
+	var scratch = make([]byte, 2*layout.BlockSize)
+	var payload = make([]byte, (layout.BlockCount+1)*layout.BlockSize)
 
-	fill(scratch, block.Padding, 0x42)
+	edit.Fill(scratch[:layout.Padding], 0x42)
 	copy(scratch[adminOffset:], []byte("admin"))
-	fill(scratch[adminPaddingOffset:], adminPaddingLength, byte(adminPaddingValue))
+	edit.Fill(
+		scratch[adminPaddingOffset:adminPaddingOffset+adminPaddingLength],
+		byte(adminPaddingLength),
+	)
 
 	var response []byte
 	// Break the blocks like so: ...[...&role=][user<pad>]
-	response = oracle.Encrypt(scratch[:block.Padding+UserRoleLength])
-	copy(payload[:block.Count*block.Size], response[:block.Count*block.Size])
+	response = oracle.Encrypt(scratch[:layout.Padding+UserRoleLength])
+	copy(
+		payload[:layout.BlockCount*layout.BlockSize],
+		response[:layout.BlockCount*layout.BlockSize],
+	)
 
 	// Break the blocks like so: [email=<pad>][admin<pad>][&...]
 	response = oracle.Encrypt(scratch[:adminPayloadLength])
-	copy(payload[block.Count*block.Size:], response[block.Size:])
+	copy(payload[layout.BlockCount*layout.BlockSize:], response[layout.BlockSize:])
 
 	return oracle.Decrypt(payload)
 }

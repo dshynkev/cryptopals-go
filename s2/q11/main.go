@@ -13,8 +13,8 @@ func main() {
 
 	io.Copy(&buf, os.Stdin)
 
-	re := oracle.NewRandomEncryptor()
-	out := re.Ask(buf.Bytes())
+	re := oracle.NewEncryptor()
+	out := re.Encrypt(buf.Bytes())
 
 	os.Stdout.Write(out)
 }

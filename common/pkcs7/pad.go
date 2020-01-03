@@ -16,21 +16,26 @@ func Pad(in []byte, blockSize int) []byte {
 
 func Unpad(in []byte, blockSize int) ([]byte, error) {
 	N := len(in)
+	// The padded length must be a multiple of block size, but never 0:
+	// PKCS7 requires a full block of padding in case input is block-aligned.
 	if N == 0 || N%blockSize != 0 {
 		return nil, BadPadding
 	}
 
-	padding := in[N-1]
-	if padding == 0 || int(padding) > blockSize {
+	// The last byte is certainly padding.
+	// Each padding byte equals the padding length.
+	padLength := in[N-1]
+	// Padding defined to be between 1 and blockSize bytes.
+	if padLength == 0 || int(padLength) > blockSize {
 		return nil, BadPadding
 	}
 
-	end := N - int(padding)
-	for i := end; i < N; i++ {
-		if in[i] != padding {
+	inputLength := N - int(padLength)
+	for i := inputLength; i < N; i++ {
+		if in[i] != padLength {
 			return nil, BadPadding
 		}
 	}
 
-	return in[:end], nil
+	return in[:inputLength], nil
 }

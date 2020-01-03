@@ -38,7 +38,7 @@ type RandomEncryptor struct {
 	LastOutput    []byte
 }
 
-func (re *RandomEncryptor) Ask(in []byte) []byte {
+func (re *RandomEncryptor) Encrypt(in []byte) []byte {
 	var randbuf = make([]byte, RandomDataSize)
 	rand.Read(randbuf)
 
@@ -75,7 +75,7 @@ func (re *RandomEncryptor) Ask(in []byte) []byte {
 	return re.LastOutput
 }
 
-func NewRandomEncryptor() *RandomEncryptor {
+func NewEncryptor() *RandomEncryptor {
 	// zero-initialized is fine in this case
-	return &RandomEncryptor{}
+	return new(RandomEncryptor)
 }

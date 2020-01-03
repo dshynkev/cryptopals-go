@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"crypto/aes"
 	"crypto/rand"
-	"log"
 
 	"cryptopals/s2/q10/cbc"
 )
@@ -45,7 +44,6 @@ func (e *KeyValueEncryptor) Encrypt(data []byte) []byte {
 
 func (e *KeyValueEncryptor) Decrypt(ciphertext []byte) []byte {
 	out, _ := cbc.Decrypt(ciphertext, e.Key, e.Iv)
-	log.Printf("decrypted: %s", out)
 
 	if bytes.Contains(out, []byte(";admin=true;")) {
 		return e.Secret

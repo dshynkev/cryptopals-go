@@ -1,21 +1,18 @@
 package main
 
 import (
-	"bufio"
+	"bytes"
+	"io"
 	"os"
 
-	"cryptopals/common"
 	"cryptopals/s1/q8/detect"
 )
 
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
-	if !scanner.Scan() {
-		return
-	}
-	in := common.HexToRaw(scanner.Bytes())
+	var buf bytes.Buffer
+	io.Copy(&buf, os.Stdin)
 
-	if detect.IsEcb(in) {
+	if detect.IsEcb(buf.Bytes()) {
 		os.Exit(0)
 	} else {
 		os.Exit(1)
