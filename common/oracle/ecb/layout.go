@@ -58,13 +58,13 @@ func GetBlockCount(oracle oracle.Encryptor, bsize int) int {
 func GetPadding(oracle oracle.Encryptor, bsize int) int {
 	var startLen = len(oracle.Encrypt(nil))
 
-	for guess := 1; guess < bsize; guess++ {
+	for guess := 1; guess <= bsize; guess++ {
 		if len(oracle.Encrypt(scratch[:guess])) > startLen {
 			return guess
 		}
 	}
 
-	return 0
+  panic("not AES-ECB")
 }
 
 // We often want to learn all the above at once
