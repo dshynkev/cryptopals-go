@@ -29,12 +29,12 @@ func RawToHex(in []byte) []byte {
 func B64ToRaw(in []byte) []byte {
 	var out = make([]byte, b64.DecodedLen(len(in)))
 
-	_, err := b64.Decode(out, in)
+	n, err := b64.Decode(out, in)
 	if err != nil {
 		panic(err)
 	}
 
-	return out
+	return out[:n]
 }
 
 func RawToB64(in []byte) []byte {
