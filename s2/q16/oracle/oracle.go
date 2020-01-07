@@ -38,12 +38,19 @@ type KeyValueEncryptor struct {
 
 func (e *KeyValueEncryptor) Encrypt(data []byte) []byte {
 	e.LastEncoded = payloadFor(data)
-	out, _ := cbc.Encrypt(e.LastEncoded, e.Key, e.Iv)
+	out, err := cbc.Encrypt(e.LastEncoded, e.Key, e.Iv)
+	if err != nil {
+		panic(err)
+	}
+
 	return out
 }
 
 func (e *KeyValueEncryptor) Decrypt(ciphertext []byte) []byte {
-	out, _ := cbc.Decrypt(ciphertext, e.Key, e.Iv)
+	out, err := cbc.Decrypt(ciphertext, e.Key, e.Iv)
+	if err != nil {
+		panic(err)
+	}
 
 	if bytes.Contains(out, []byte(";admin=true;")) {
 		return e.Secret
@@ -55,6 +62,7 @@ func (e *KeyValueEncryptor) Decrypt(ciphertext []byte) []byte {
 func NewEncryptor() *KeyValueEncryptor {
 	kve := new(KeyValueEncryptor)
 
+	kve.Iv = make([]byte, aes.BlockSize)
 	kve.Key = make([]byte, aes.BlockSize)
 	kve.Secret = make([]byte, aes.BlockSize)
 
