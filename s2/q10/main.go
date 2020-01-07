@@ -29,7 +29,7 @@ func main() {
 	var out, err = cbc.Decrypt(ciphertext, key, iv)
 	if err != nil {
 		os.Stderr.WriteString(err.Error())
-    os.Stderr.WriteString("\n")
+		os.Stderr.WriteString("\n")
 		return
 	}
 

@@ -64,7 +64,7 @@ func GetPadding(oracle oracle.Encryptor, bsize int) int {
 		}
 	}
 
-  panic("not AES-ECB")
+	panic("not AES-ECB")
 }
 
 // We often want to learn all the above at once
