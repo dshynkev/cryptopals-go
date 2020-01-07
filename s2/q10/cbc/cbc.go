@@ -18,6 +18,9 @@ func Decrypt(in, key, iv []byte) ([]byte, error) {
 	if len(in) == 0 {
 		return nil, nil
 	}
+	if len(in)%BlockSize != 0 {
+		return nil, pkcs7.BadPadding
+	}
 
 	cipher, err := aes.NewCipher(key)
 	if err != nil {

@@ -15,12 +15,23 @@ func main() {
 	}
 
 	var key = []byte(os.Args[1])
-	var iv = make([]byte, cbc.BlockSize)
 
 	var buf bytes.Buffer
 	io.Copy(&buf, os.Stdin)
 
-	var out, _ = cbc.Decrypt(buf.Bytes(), key, iv)
+	if buf.Len() < cbc.BlockSize {
+		os.Stderr.WriteString("Ciphertext must contain IV\n")
+		return
+	}
+
+	var iv = buf.Bytes()[:cbc.BlockSize]
+	var ciphertext = buf.Bytes()[cbc.BlockSize:]
+	var out, err = cbc.Decrypt(ciphertext, key, iv)
+	if err != nil {
+		os.Stderr.WriteString(err.Error())
+    os.Stderr.WriteString("\n")
+		return
+	}
 
 	var rd = bytes.NewReader(out)
 	io.Copy(os.Stdout, rd)
